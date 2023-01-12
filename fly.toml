@@ -1,0 +1,27 @@
+# fly.toml file generated for irc-on-fly on 2023-01-12T20:12:54+01:00
+
+app = "irc-on-fly"
+
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[env]
+
+[experimental]
+  allowed_public_ports = []
+  auto_rollback = true
+
+[[services]]
+  internal_port = 22
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = "2222"
+
+[[services]]
+  internal_port = 113
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = "113"
