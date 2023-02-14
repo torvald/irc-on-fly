@@ -2,23 +2,22 @@ FROM debian:stable-slim
 
 WORKDIR /app
 
-RUN apt update && apt install -y \
+RUN apt update && apt install -y --no-install-recommends \
     # nice to have
     curl \
     procps \
     iproute2 \
+    net-tools \
     # the shit
     mosh \
     ncdu \
-    net-tools \
-    oidentd \
     openssh-server \
     screen \
     weechat \
-    supervisor
-
-
-RUN apt install -y npm git nginx --no-install-recommends
+    supervisor \
+    npm \
+    git \
+    nginx
 
 # Glowing Bear
 RUN git clone https://github.com/glowing-bear/glowing-bear.git
@@ -37,11 +36,6 @@ RUN chown -R torvald:torvald /home/torvald/.weechat
 # ssh setup
 RUN mkdir /run/sshd
 
-COPY startup.sh .
-RUN chmod a+x startup.sh
-
 # supervisor
 COPY config/supervisor.conf .
 CMD supervisord -c supervisor.conf
-
-EXPOSE 2222

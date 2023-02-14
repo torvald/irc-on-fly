@@ -8,9 +8,17 @@ processes = []
 [env]
 
 [experimental]
-  #auto_rollback = true
 
 [[services]]
+  # openssh-server
+  internal_port = 2222
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = "2222"
+
+[[services]]
+  # weechat relay
   internal_port = 9001
   protocol = "tcp"
 
@@ -19,6 +27,7 @@ processes = []
     handlers = ["tls", "http"]
 
 [[services]]
+  # glowing bear via nginx
   http_checks = []
   internal_port = 80
   protocol = "tcp"
