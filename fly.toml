@@ -1,7 +1,6 @@
-# fly.toml file generated for irc-on-fly on 2023-01-12T20:12:54+01:00
+# fly.toml file generated for irc-on-fly on 2023-02-13T19:56:21+01:00
 
 app = "irc-on-fly"
-
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
@@ -9,19 +8,26 @@ processes = []
 [env]
 
 [experimental]
-  allowed_public_ports = []
-  auto_rollback = true
+  #auto_rollback = true
 
 [[services]]
-  internal_port = 22
+  internal_port = 9001
   protocol = "tcp"
 
   [[services.ports]]
-    port = "2222"
+    port = "9001"
+    handlers = ["tls", "http"]
 
 [[services]]
-  internal_port = 113
+  http_checks = []
+  internal_port = 80
   protocol = "tcp"
 
   [[services.ports]]
-    port = "113"
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
