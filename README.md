@@ -78,10 +78,26 @@ alter the command in supervisord.conf with
 
     command=/usr/bin/tmux -L weechat new -d -s weechat weechat
 
-### Perisist config
+### Persist config
+
+This setup hold WeeChat config files in the folder
+`repo:config/weechat/` for ease of bootstrap and
+reproduceability. Because WeeChat really like to have all
+changes done via the command line here are a couple of steps for
+fetching your running config file down to your local repo.
+
+In weechat
+
+ - `/autojoin --run` to store the channels to join
+ - `/layout store` to store the order of the channels
+ - `/save` to save your settings to a disk
+
+Get the files and have your repo be the source of truth on next deploy.
 
 ```
 for file in irc plugins relay weechat; do scp -P 2222 -i keys/id "weechat@irc-on-fly.fly.dev:.weechat/${file}.conf" config/weechat/; done
 ```
 
+### Add plugins
 
+Add to Dockerfile, just besides the `autojoin.py`.
