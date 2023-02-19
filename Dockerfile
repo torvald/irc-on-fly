@@ -13,7 +13,7 @@ RUN cd glowing-bear/ && npm run build
 RUN mkdir glowing-bear-build
 RUN cp -r glowing-bear/build/* glowing-bear-build/
 
-# So we dont need to package 500mb of npm stuff
+# So we dont need to ship 500mb of npm stuff
 FROM final
 
 WORKDIR /app
@@ -23,34 +23,35 @@ ARG ssh_pub_key=keys/id.pub
 
 RUN apt update && apt install -y --no-install-recommends \
     # nice to have
-    curl \
-    procps \
-    iproute2 \
-    net-tools \
+    # curl \
+    # procps \
+    # iproute2 \
+    # net-tools \
+    # ncdu \
     # the shit
+    wget \
     mosh \
-    ncdu \
     openssh-server \
     screen \
     weechat \
     weechat-plugins \
+    weechat-python \
     supervisor \
-    npm \
-    git \
+    ca-certificates \
     nginx
 
 # Glowing Bear
 COPY --from=build /app/glowing-bear-build /var/www/html
 
-# lets not run things as root
+# Lets not run things as root
 RUN useradd -ms /bin/bash $user
 
-# irc user and weechat config
-RUN mkdir /home/$user/.weechat
-COPY config/irc.conf /home/$user/.weechat/irc.conf
-COPY config/weechat.conf /home/$user/.weechat/weechat.conf
-COPY config/relay.conf /home/$user/.weechat/relay.conf
-RUN chown -R $user:$user /home/$user/.weechat
+# User and weechat config
+RUN mkdir /tmp/weechat/
+COPY config/weechat/*.conf /tmp/weechat/
+COPY scripts/start-weechat.sh .
+RUN mkdir /tmp/weechat/plugins
+RUN wget https://weechat.org/files/scripts/autojoin.py -O /tmp/weechat/plugins/autojoin.py
 
 # ssh setup
 RUN mkdir /run/sshd
