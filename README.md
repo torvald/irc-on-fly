@@ -5,15 +5,15 @@ tier](https://fly.io/docs/about/pricing/) for up to 3
 `shared-cpu-1x 256mb` and 3GB of persistant storage! Lets
 leverage that for an uncompromising IRC client setup.
 
-This project gives you a `weechat` instance, sprinkled with relay config, and SSH daemon and
-[Glowing Bear](https://glowing-bear.org/) on top. It also comes with a
-maintenance free TLS setup, because fly.io ingress layer «just works».
+This project gives you a `weechat` instance, sprinkled with relay config, and
+SSH daemon and [Glowing Bear](https://glowing-bear.org/) on top. It also comes
+with a maintenance free TLS setup, because fly.io's ingress layer «just works».
 
 ## Screenshots
 
 ### Desktop
 
-Glowing Bear               |  WeeChat over SSH
+Glowing Bear in the browser | WeeChat over SSH
 :-------------------------:|:-------------------------:|
 ![glowing-bear](imgs/glowingbear.png) |  ![weechat](imgs/weechat.png) 
 
@@ -25,7 +25,6 @@ Glowing Bear   |  Weechat Android app | with notifications!
 ## Setup
 
 Create yourself a [fly.io](https://fly.io/app/sign-up) account.
-
 
 Then pull the repo and;
 
@@ -67,7 +66,8 @@ app](https://play.google.com/store/apps/details?id=com.ubergeek42.WeechatAndroid
 
 ## Debugging
 
-`fly ssh console` immediately gives you a root shell. Supervisord logs to files in `/app/`.
+`fly ssh console` immediately gives you a root shell. Supervisord logs to files
+in `/app/`.
 
 ## Tips and party tricks
 
@@ -95,7 +95,8 @@ In weechat
 Get the files and have your repo be the source of truth on next deploy.
 
 ```
-for file in irc plugins relay weechat; do scp -P 2222 -i keys/id "weechat@irc-on-fly.fly.dev:.weechat/${file}.conf" config/weechat/; done
+FILES="irc plugins relay weechat"
+for file in $FILES; do scp -P 2222 -i <key> "weechat@<name>.fly.dev:.weechat/${file}.conf" config/weechat/; done
 ```
 
 ### Add plugins
