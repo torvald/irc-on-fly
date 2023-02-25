@@ -9,6 +9,8 @@ This project gives you a `weechat` instance, sprinkled with relay config, and
 SSH daemon and [Glowing Bear](https://glowing-bear.org/) on top. It also comes
 with a maintenance free TLS setup, because fly.io's ingress layer «just works».
 
+![schema](imgs/fly-on-irc.png)
+
 ## Screenshots
 
 ### Desktop
